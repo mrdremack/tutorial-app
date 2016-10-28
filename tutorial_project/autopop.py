@@ -7,7 +7,7 @@ django.setup()
 from tutorial_app.models import Category, Page
 
 def add_cat(name):
-	c = Category.objects.get_or_create(name=name)
+	c = Category.objects.get_or_create(name=name)[0]
 	return c
 
 def add_page(cat, title, url, view=0):
@@ -42,9 +42,9 @@ def populate():
 		title="Django Rocks",
 		url="http://www.djangorocks.com/")
 
-	add_page(car=django_cat,
+	add_page(cat=django_cat,
 		title="How to Tango with Django",
-		url=="http://www.tangowithdjango.com/")
+		url="http://www.tangowithdjango.com/")
 
 	frame_cat = add_cat("Other Frameworks")
 
@@ -56,13 +56,11 @@ def populate():
 		title="Flask",
 		url="http://flask.pocoo.org")
 
-	#Print out what we have to added to the user.
 	for c in Category.objects.all():
-		for p in Page.onjects.filter(category=c):
+		for p in Page.objects.filter(category=c):
 			print "- {0} -{1}".format(str(c), str(p))
 
-	Start execution here!
 	if __name__== '__main__':
 		print "Starting Rango population script..."
 		populate()
-		)
+		
