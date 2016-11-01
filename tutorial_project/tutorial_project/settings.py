@@ -3,7 +3,6 @@ Django settings for tutorial_project project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
-
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
@@ -18,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '!%t_g2y25#a_ir7aoml6d-8yyyk%v%8l(*5#h-#94*54=-)^08'
-
+            '1=rs=r8inq7&nnrlj(a#k&a(xir6e+wgnbj5hzk7#jd_jx8_c='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -57,6 +56,17 @@ TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
 TEMPLATE_DIRS = (
     TEMPLATE_PATH,
     )
+
+STATIC_PATH = os.path.join(BASE_DIR,'static')
+
+STATICFILES_DIRS= (
+    STATIC_PATH,
+)
+
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL='/media/'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
@@ -83,12 +93,3 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
-
-STATIC_PATH = os.path.join(BASE_DIR,'static')
-STATIC_URL = '/static/'
-STATICFILES_DIRS= (
-    STATIC_PATH,
-)
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-MEDIA_URL='/media/'
