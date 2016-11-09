@@ -1,21 +1,23 @@
+{% extends 'base.html' %}
 {% load static %}
-<html>
-<head>
-		<title>Tutorial App</title>
-</head>
-<body>
-<center>
-		<hl>Tutorials</hl>
-		<a href="/about">About us</a>
-		<a href="/add-category/">Add Category</a>
+
+{% block body_block %}
+	{% if user.is_authenicated %}
+	<h1>Welcome to Tutorial App {{ user.username}}</h1>
+	{% else %}
+	<h1>Tutorials<h1>
+	{% endif %}
+
+	visits: {{Visits}}
 
 	{% if categories %}
 			{% for category in categories %}
-					  <a href="category/{{category.slug}}"><p{{ category.name}}</pa>
+				<a href= "{url 'category' category.slug}"><p>{{category.name}}</p></a>
 			{% endfor %}
 	{% else %}
 			<p>There are no categories</p>
 	{% endif %}
+
 	{% if pages %}
 			{% for page in pages%}
 			  <a href="{{ page.url }}">{{ page.title }}</a>
@@ -23,12 +25,13 @@
 	{% else %}
 			  <p>There are no pages</p>
 	{% endif %}
+	
 
 	<br>
 	<img src="{% static 'https://alderconsulting.files.wordpress.com/2013/10/nike-just-do-it.jpg'%} />"
 
-</body>
-</html>
+{% endblock %}
+
 
 
 

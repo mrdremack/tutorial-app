@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tutorial App</title>
+	</head>
+
+	<body>
+			<hi>Register with Tutorial App</h1>
+
+				{% if regiester %}
+				<<strong>Thank you for registering!</strong>
+				<a href="/django/">Return to the homepage.</a><br />
+				{% elese %}
+				<strong>Register Here!</strong><br />
+
+				<form id="user_form" method="post"  action="/django/register/"enctrype="multipart/form-data">
+
+				{% csrf_token %}
+
+				{{ user_form.as_p }}
+				{{ profile_form.as_p }}
+
+				<input type="submit" name="submit" values="Register" />
+			</form>
+			{% endif %}
+		</body>
+	</html>

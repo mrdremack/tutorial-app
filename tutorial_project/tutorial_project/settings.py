@@ -16,8 +16,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!%t_g2y25#a_ir7aoml6d-8yyyk%v%8l(*5#h-#94*54=-)^08'
-            '1=rs=r8inq7&nnrlj(a#k&a(xir6e+wgnbj5hzk7#jd_jx8_c='
+SECRET_KEY = '1=rs=r8inq7&nnrlj(a#k&a(xir6e+wgnbj5hz7#jd_jx8_c='
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -70,12 +71,21 @@ MEDIA_URL='/media/'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+PASSWORD_HASHERS= (
+'django.contrib.auth.hasher.BCryptSHA256PasswordHAsher',
+'django.contrib.auth.hasher.BCryptPasswordHasher',
+'django.contrib.auth.hasher.PBKDF2PasswordHasher',
+'django.contrib.auth.hasher.PBKDF2SHA1PasswordHasher'
+)
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+   }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

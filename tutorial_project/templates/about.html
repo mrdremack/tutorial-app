@@ -1,0 +1,11 @@
+{% extend 'base.html' %}
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block body_block %}
+	<h1>About Tutorial App</h1>
+	<p>Visits: {{ visits }}</p>
+	<p>This app allows users to save and categorizes free online tutorials</p>
+
+	{% endblock %}

@@ -1,4 +1,9 @@
-<html>
+{% extend 'base.html' %}
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block body_block %}
 		<head>
 				<title>Add Category</title>
 		</head>
@@ -16,4 +21,4 @@
 						<input type="submit" value="Create a Category"/>
 				</form>
 		</body>
-</html>
+{% endblock %}

@@ -1,8 +1,15 @@
-<html>
+{% load static %}
+{% extends 'base.html' %}
+
+{%block title %}{{ category.name}}{% endblock %}
+
+{% block body_block %}
+
 <head>
 		<titile>{{ category.name}}</title>
 </head>
 <body>
+		{% if user.is_authenicated %}
 		<h1>{{ cateogry.name}}</h1>
 	   {% if category %}
 			   {% if pages %}
@@ -17,6 +24,9 @@
 				   <a href="/category/{{category.slug}}/add-page/">Add Page</a>
 		 {% else %}
 				   <p>The specified category {{ category.name}} does not exist</p>
+
+			   {% else %}
+				   <a href='/category/{{category.slug}}/add_page/'>Add a Page</a'>'
 		 {% endif %}
 <body>
 <html>
