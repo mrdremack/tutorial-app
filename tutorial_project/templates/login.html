@@ -1,7 +1,19 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet type="text/css" href="{%static'css/form.css' %}>
 
+		<h2 class="forms-sign-in-heading">Login To Tutorial App</h2>
+
+		<form clas="form-signin" id="login_form" method='post' action='/login/'>
+			<h2 class="form-signin-heading">Please Login</h2>
+			{% csrf_token %}
+
+			<input class="form-control" placeholder="Username" type='text' name='username' value="" size"50"
+			<br />
+			<input type="password" class="form-control" placeholder="Password" name="password" value="" size"50"
+			<br />
+			<button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" >Sign in</button>
 	</head>
 
 	<body>

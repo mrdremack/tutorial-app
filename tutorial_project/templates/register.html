@@ -5,15 +5,19 @@
 	</head>
 
 	<body>
+<link rel="stylesheet type="text/css" href="{%static'css/form.css' %}>
 			<hi>Register with Tutorial App</h1>
 
 				{% if regiester %}
-				<<strong>Thank you for registering!</strong>
+				<strong>Thank you for registering!</strong>
 				<a href="/django/">Return to the homepage.</a><br />
 				{% elese %}
-				<strong>Register Here!</strong><br />
+				<strong> class="form-signin-heading"><h2>Register Here!</h2></strong><br />
 
-				<form id="user_form" method="post"  action="/django/register/"enctrype="multipart/form-data">
+
+				<form class="form-signin id="user_form" method="post"  action="/django/register/"enctrype="multipart/form-data">
+
+				<strong class="form-signin-heading">Please Register</>
 
 				{% csrf_token %}
 
@@ -21,6 +25,9 @@
 				{{ profile_form.as_p }}
 
 				<input type="submit" name="submit" values="Register" />
+
+				<button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" >Sign in</button>
+
 			</form>
 			{% endif %}
 		</body>

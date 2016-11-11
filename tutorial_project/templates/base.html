@@ -1,21 +1,63 @@
 {% load static %}
-<html>
+<html lang="en">
 <head>
-		<titile>{% block title %}Tutorial App{% endblock %}<title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width-device-width, initial-scale=1">
+	<meta name= "description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
+<div
+	<titile>Tutorial App {% block title %}Read Up{% endblock %}</title>
+</div>
+	<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="style"
+	<link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+
 </head>
-<body>
-	<a href="{% url 'about' %}">About Us</a>
-
-	{% if user.is_authenticated %}
-	<a href="{% url 'add-category' %}">Add Category</a>
-	<a href="{% url 'logout' %}">logout</a>
-	{% else %}
-	<a href="{% url 'login' %}">Login</a>
-	<a href ="{%url 'register' %}">Register</a>
-	{% endif %}
 
 
-	{% block body_block %}{% endblock %}
+		
+
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top" role="nav">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle=collapse" data-target=".navbar-collapse">
+					<span class="sr-only>Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<li><a href="{% url 'index' %}">Home</a></li>
+				<a class="navbar-brand" href="/">Tutorials App</a></div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="{% url 'about' %}">About Us</a></li>
+					{% if user.is_authenticated %}
+					<li><a<a href="{% url 'logout' %}">logout</a><li>
+					<li><a<a href="{% url 'add-category' %}">Add Category</a></li>
+					{% else %}
+					<li><a<a href="{% url 'login' %}">Login</a></li>
+					<li><a<a href ="{%url 'register' %}">Register</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row>"
+			<div class="col-sm-3-md-2 sidebar">
+				{%block side_block%}{% endblock %}
+			</div>
+			<div class="col-sm-9 col-md-10 col-md-offset-2 main">
+				{% block body_block %}{% endblock %}
+			</div>
+		</div>
+		</div>
+
+	<script src="http://ajax.googleleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://getbootstrap.com/dis/js/bootstrap.min.js"></script>
+	<script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
 
 </body>
 </html>
