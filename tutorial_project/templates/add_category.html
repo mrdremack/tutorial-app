@@ -1,24 +1,30 @@
-{% extend 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
+{% load extras %}
 
-{% block title %}About{% endblock %}
+{% block title %}Add Category{% endblock %}
 
 {% block body_block %}
 
-<link rel="stylesheet" type="text/css" href="{%static'css/form.css' %}">
-				<h1 class="form-sign-in-heading">Add Category</h1>
-				<form class="form-signin" id='category_form' method="post" action='/add-category/'>
-					<h3 class="form-sign-in-heading">Add a new categrory.</h3> 
-
+<link rel = "stylesheet" type = "text/css" href = "{% static 'css/form.css' %}">
+				<h1 class = "form-sign-in-heading">Add Category</h1>
+				<form class = "form-signin" id='category_form' method = "post" action = '/add-category/'>
+					<h3 class="form-signin-heading">Add a new category.</h3> 
 					  {% csrf_token %}
-					  {% for hidden in form.hidden_fields%}
+					  {% for hidden in form.hidden_fields %}
 							  {{ hidden }}
 		       		  {% endfor %}
 
 					  {% for field in form.visible_fields %}
-							  {{ field }}
+					  <div class = "form-group">
+					  	{{ field.errors }}
+					  	{{ field.help_text }}
+					  	{{ field.label }}
+						{{ field |addcls:'for-control'}}
+						</div>
 					  {% endfor %}
-						<input type="submit" value="Create a Category"/>
+
+
+					  <button class = "btn btn-lg btn-primary btn-block" type = "submit" value = "submit">Add Category</button>
 				</form>
-		</body>
 {% endblock %}

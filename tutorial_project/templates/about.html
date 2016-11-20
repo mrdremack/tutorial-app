@@ -1,14 +1,18 @@
-{% extend 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}About{% endblock %}
+{% block title %}About Us{% endblock %}
 
 {% block body_block %}
 <div class="page-header">
-	<h1>About Tutorials App</h1>
+		<h1>About Tutorials App</h1>
 </div>
-	<h1>About Tutorial App</h1>
-	<p>Visits: {{ visits }}</p>
-	<p>This app allows users to save and categorizes free online tutorials</p>
 
-	{% endblock %}
+
+
+
+			
+<p>Visits: {{ visits }}</p>
+<p>This app allows users to save and categorizes free online tutorials</p>
+
+{% endblock %}

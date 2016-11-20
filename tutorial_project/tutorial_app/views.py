@@ -1,20 +1,18 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from models import Category, Page
-from forms import CategoryForm, PageForm
-from forms import UserForm, UserProfileForm
-from django.contrib.auth import authenticate, login 
-from django.http import HttpResponseRedirect, HttpResponse 
+from django.shortcuts import render, redirect 
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.models import User 
+from models import Category, Page, UserProfile
+from forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from django.contrib.auth import authenticate, logout, login  
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
 from datetime import datetime
 
 def index(request):
 	context_dict = {}
-	request.session.set_test_cookie()
-	if request.session.test_cookie_worked():
-		print ">>> TEST COOKIE WORKED"
-		request.session.delete_test_cookie()
+	#request.session.set_test_cookie()
+	#if request.session.test_cookie_worked():
+	#	print ">>> TEST COOKIE WORKED"
+	#	request.session.delete_test_cookie()
 
 	category_list = Category.objects.order_by('-likes')[:5]
 
@@ -32,7 +30,7 @@ def index(request):
 
 	#if 'last_visit' in request.COOKIES:
 	#	last_visit = request.COOKIES['last_visit']
-	last_visit =  request.session.get('last_visit_time')
+	last_visit =  request.session.get('last_visit')
 	if last_visit:
 		last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
 
@@ -43,8 +41,6 @@ def index(request):
 	else:
 		reset_last_visit_time = True
 
-	
-	response = render(request , 'index.html', context_dict)
 
 	if reset_last_visit_time:
 		#response.set_cookie('last_visit', datetime.now())
@@ -53,11 +49,13 @@ def index(request):
 		request.session['visits'] = visits
 
 	context_dict['visits'] = visits	
+	response = render(request , 'index.html', context_dict)
+
 	return response
 
 
 def about(request):
-
+	context_dict = {}
 	if request.session.get('visits'):
 		count = request.session.get('visit')
 	else: count = 0
@@ -67,9 +65,7 @@ def about(request):
 
 	return render (request,'about.html',context_dict)
 	
-	#delete bottom line
-def about(request):
-    return HttpResponse("About Us")
+
 
 def category(request, category_name_slug):
 	context_dict = {}
@@ -85,7 +81,7 @@ def category(request, category_name_slug):
 
 	return render(request, 'category.html', context_dict)
 
-
+@login_required
 def add_category(request):
 		if request.method == 'POST':
 			form = CategoryForm(request.POST)
@@ -99,7 +95,7 @@ def add_category(request):
 
 		return render(request,'add_category.html', {'form':form})				
 
-
+@login_required
 def add_page(request, category_name_slug):
 	try:
 			cat = Category.objects.get(slug=category_name_slug)
@@ -111,9 +107,11 @@ def add_page(request, category_name_slug):
 
 		if form.is_valid():
 			if cat:
+
 				page = form.save(commit=False)
-				page.catgeory = cat
+				page.catgeory = cat.id
 				page.views = 0 
+				print cat.id
    			  	page.save()
 				return category(request, category_name_slug)
 			else:
@@ -132,7 +130,7 @@ def register(request):
 		#Attempt to grab information from the raw form information.
 		#Note that we make use of both UserForm and UserProfileForm.
 		user_form = UserForm(data=request.POST)
-		profile_form = UserProfile(data=request.POST)
+		profile_form = UserProfileForm(data=request.POST)
 
 		if user_form.is_valid() and profile_form.is_valid:
 			# Save the user's form data to the database.
@@ -152,7 +150,7 @@ def register(request):
 			registered = True
 
 		else:
-			print user_form.erros, profile_form.errors
+			print user_form.errors, profile_form.errors
 	else:
 		user_form = UserForm()
 		profile_form = UserProfileForm()
@@ -162,11 +160,12 @@ def register(request):
 def user_login(request):
 	if request.method == 'POST':
 		username = request.POST.get('username' )
-		password = request.POST.get (usetname=username, password=password)
+		password = request.POST.get('password') 
+		user = authenticate(username=username, password=password)
 		if user:
 			if user.is_active:
-				login(request, user_form)
-				return HttpResponseReDirect('/')
+				login(request, user)
+				return HttpResponseRedirect('/')
 			else: 
 					return HttpResponse("Your account is disabled.")
 		else:
@@ -177,8 +176,24 @@ def user_login(request):
 
 def user_logout(request):
 	logout(request)
-	
 	return HttpResponseRedirect('/')
 
+
+def track_url(request):
+	page_id = None  #page id is the variable = none
+	url = '/' #url = home
+
+
+	if request.method == 'GET':
+		if 'page_id' in request.GET:   #paid_id here = value
+			page_id = request.GET['page_id']
+			try:
+				page = Page.objects.get(id=page_id)
+				page.views = page.views + 1
+				p.save()
+				url = page.url
+			except:
+				pass 
+	return redirect(url)
 
 

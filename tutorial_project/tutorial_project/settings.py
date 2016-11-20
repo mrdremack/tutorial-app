@@ -71,11 +71,11 @@ MEDIA_URL='/media/'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-PASSWORD_HASHERS= (
-'django.contrib.auth.hasher.BCryptSHA256PasswordHAsher',
-'django.contrib.auth.hasher.BCryptPasswordHasher',
-'django.contrib.auth.hasher.PBKDF2PasswordHasher',
-'django.contrib.auth.hasher.PBKDF2SHA1PasswordHasher'
+PASSWORD_HASHERS = (
+'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+'django.contrib.auth.hashers.BCryptPasswordHasher',
+'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 )
 
 

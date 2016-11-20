@@ -1,26 +1,31 @@
 {% extends 'base.html' %}
 {% load static %}
-{ block body title %}Add Pages{% endblock %}
+{% load extras %}
+
+{% block title %}Add Pages{% endblock %}
 {% block body_block %}
-<link rel="stylesheet" type="text/css" href="{%static'css/form.css' %}">
-		<h1 class="form-signin-heading">Add a page to {{category.name}}</h1>
+<link rel = "stylesheet" type = "text/css" href = "{% static 'css/form.css' %}">
+		<h1 class = "form-signin-heading">Add a page {{category.name}}</h1>
 
-		<form class="form-signin" id="page_form" method='post'action='/category/{{slug}}/add-page/'>
-			<h3
+		<form class = "form-signin" id = "page_form" method ='post' action ='/category/{{slug}}/add-page/'>
+			<h3 class = "form-signin-heading">Add a page to {{category.name}}</h3>
+			{% csrf_token %}
 
-			  {% csrf_token %}
-
-			  {% for hidden in form.hidden_fields}
+			  {% for hidden in form.hidden_fields %}
 			  		  {{ hidden }}
 			  {% endfor %}
 
 			  {% for field in form.visible_fields %}
-					  {{ field. errors }}
+			  <div class = "form-group">
+					  {{ field.errors }}
 					  {{ field.help_text }}
-					  {{ field }}
+					  {{ field.label }}
+					  {{ field |addcls:'for-control'}}
+				</div>
 			  {% endfor %}
 
-			    <input type='submit' name='submit'value='Add a Page'>
+
+			<button class ="btn btn-lg btn-primary btn-block" type ="submit" value ="Submit">Add a Page</button>
 
 		</form>
 {% endblock %}

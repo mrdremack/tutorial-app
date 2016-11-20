@@ -9,9 +9,9 @@ class Category(models.Model):
 	slug = models.SlugField()
 
 	def save(self, *args, **kwargs):
-		self.slug = slugify(self.name)
+			self.slug = slugify(self.name)
 
-		super(Category, self).save(*args, **kwargs)
+			super(Category, self).save(*args, **kwargs)
 		
 	def __unicode__(self):
 		return self.name
