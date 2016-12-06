@@ -31,10 +31,14 @@
 			<div class ="navbar-collapse collapse">
 				<ul class ="nav navbar-nav navbar-right">
 					<li><a href ="{% url 'about' %}">About Us</a></li>
+					<li><a href = "{% url 'contact' %}">Contact</a></li>
 						{% if user.is_authenticated %}
 						<li><a href ="{% url 'add-category' %}">Add Category</a></li>
+
+						<li><a href="{% url 'profile' user.username %}">{{user.username}}'s profile'</a></li>
+
 						<li><a href ="{% url 'logout' %}">logout</a></li>
-							
+						
 						{% else %}
 						<li><a href ="{% url 'login' %}">Login</a></li>
 						<li><a href ="{%url 'register' %}">Register</a></li>
@@ -62,6 +66,7 @@
 	<script src ="http://ajax.googleleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src ="http://getbootstrap.com/dis/js/bootstrap.min.js"></script>
 	<script src ="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+	<script type="text/javascript" src="{% static 'js/app_ajx.js' %}"></script>
 
 	</body>
 </html>

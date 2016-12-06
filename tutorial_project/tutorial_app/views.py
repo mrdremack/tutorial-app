@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect 
+from django.shortcuts import render, redirect, get_object_or_404 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User 
 from models import Category, Page, UserProfile
-from forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from forms import CategoryForm, PageForm, UserForm, UserProfileForm, ContactForm
 from django.contrib.auth import authenticate, logout, login  
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from search import run_query
+
 
 
 
@@ -81,7 +82,7 @@ def category(request, category_name_slug):
 		if query:
 			result_list = run_query(query)
 			context_dict['result_list'] = result_list
-			print result_list
+			#print result_list
 			context_dict['query'] = query
 
 	try:
@@ -101,10 +102,13 @@ def add_category(request):
 		if request.method == 'POST':
 			form = CategoryForm(request.POST)
 			if form.is_valid():
-					form.save(commit=True)
-					return index(request)
+				cat = form.save(commit=False)
+				cat.user = request.user
+				cat.save()
+
+				return index(request)
 			else:
-					print form.errors
+				print form.errors
 		else:
 			form = CategoryForm()
 
@@ -124,7 +128,8 @@ def add_page(request, category_name_slug):
 			if cat:
 
 				page = form.save(commit=False)
-				page.catgeory = cat.id
+				page.user = request.user
+				page.category = cat
 				page.views = 0 
 				print cat.id
    			  	page.save()
@@ -210,5 +215,94 @@ def track_url(request):
 			except:
 				pass 
 	return redirect(url)
+
+def user_profile(request, user_username):
+	context_dict={}
+	user = User.objects.get(username = user_username)
+	profile = UserProfile.objects.get(user = user)
+	context_dict['profile'] = profile
+	context_dict['pages'] = Page.objects.filter(user=user)
+
+	return render(request, 'profile.html', context_dict)
+
+@login_required
+def edit_profile(request, user_username):
+	profile = get_object_or_404(UserProfile, user__username=user_username)
+	website = profile.webiste
+	pic = profile.picture
+	bio = profile.bio
+
+	if request.user != profile.user:
+		return HttpResponse('Access Denied')
+
+	if request.method == 'POST':
+		form = UserProfileForm(data = request.POST)
+		if form.is_valid():
+			if request.POST['website'] and request.POST['website'] != '':
+				profile.website = request.POST['website']
+			else: 
+				profile.website = website
+
+			if request.POST['bio'] and request.POST['bio'] != '':
+				profile.bio = request.POST['bio']
+			else:
+				profile.bio = bio
+
+			if 'picture' in request.FILES:
+				profile.picture = request.FILES['picture']
+			else:
+				profile.picutre= pic
+
+			profile.save()
+
+			return user_profile(request, profile.user.username)
+
+		else:
+			print form.errors
+	else:
+		form = UserProfileForm()
+	return render(request, 'edit_profile.html', {'form':form, 'profile':profile})
+
+
+def contact(request):
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+
+		if form.is_valid():
+			form.send_message()
+
+			return HttpResponseRedirect()
+		else: 
+			print form.errors
+	else:
+		form = ContactForm()
+	return render(request, 'contact.html', {'form':form})
+
+@login_required
+def like_category(request):
+	cat_id = None
+	if request.method =="GET":
+		cat_id=request.GET['category_id']
+
+	likes = 0
+
+	if cat_id:
+		cat = Category.object.get(id=int(cat_id))
+		if cat:
+			likes = cat.likes + 1
+			cat.likes = likes
+			cat.save()
+
+	return HttpResponse(likes)
+
+
+
+
+
+
+
+
+
+
 
 
