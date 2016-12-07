@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from search import run_query
+from suggest import get_category_list
 
 
 
@@ -294,6 +295,42 @@ def like_category(request):
 			cat.save()
 
 	return HttpResponse(likes)
+
+def suggest_category(request):
+	cat_list = []
+	starts_with =''
+
+	if request.method == 'GET':
+		starts_with = request.GET['suggestion']
+
+	cat_list = get_category_list(8, starts_with)
+
+	return render(request, 'cat.html', {'cats':cat_list})
+
+@login_required
+def auto_add_page(request):
+	cat_id= None
+	url = None
+	title = None
+	User = None
+	context_dict = {}
+
+	if request.method =='GET':
+		cat_id = request.GEt['category_id']
+		url = request.GET['url']
+		title = request.GET['title']
+		user = request.GET['user']
+
+		if cat_id and user:
+			category = Category.objects.get(id=int(cat_id))
+			user = User.objects.get(username=user)
+			P = Page.objects.get_or_create(category=category, user=user, title=title, url=url)
+
+	pages = Page.objects.filter(category=category).order_by('-views')
+
+	context_dict['pages'] = pages
+
+	return render(request, 'page_list.html', context_dict)
 
 
 

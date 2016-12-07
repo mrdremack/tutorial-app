@@ -52,9 +52,16 @@
 
 	<div class ="row">
 		<div class ="col-sm-3 col-md-2 sidebar">
-			{% block side_block %}
-				{% get_category_list category %}
-			{% endblock %}
+			<ul class="nav nav-list">
+				<li class="nav-header">Find a Category</li>
+				<form>
+					<label></label>
+					<li><input class= "search-query span10" type="text" name="suggestion" value="" id="suggestion"/></li>
+				</form>
+			</ul>
+			<div id="cats"></div>
+
+
 
 		</div>
 		<div class ="col-sm-9 col-md-10 col-md-offset-2 main">
@@ -63,10 +70,10 @@
 		</div>
 	</div>
 
-	<script src ="http://ajax.googleleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src ="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src ="http://getbootstrap.com/dis/js/bootstrap.min.js"></script>
 	<script src ="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-	<script type="text/javascript" src="{% static 'js/app_ajx.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/app_ajax.js' %}"></script>
 
 	</body>
 </html>
